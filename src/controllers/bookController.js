@@ -1,5 +1,6 @@
 import { book } from "../models/Book.js";
 import { author } from "../models/Author.js";
+import BaseError from "../errors/BaseError.js";
 
 class BookController {
     static async getAll(req, res) {
@@ -23,14 +24,19 @@ class BookController {
 
             res.status(201).json({ message: 'Book created successfully', data: newBook });
         } catch (error) {
-            res.status(500).json({ message: error.message });
+            next(error);
         }
     };
 
-    static async getBookById(req, res) {
+    static async getBookById(req, res, next) {
         const id = req.params.id;
-        const getBook = await book.findById(id);
-        res.status(200).json(getBook);
+
+        try {
+            const getBook = await book.findById(id);
+            res.status(200).json(getBook);
+        } catch (error) {
+            next(new BaseError('Book not found', 404));
+        }
     };
 
     static async updateBook(req, res) {
