@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { authorSchema } from "./Author.js";
+const mongoose = require("mongoose");
+const { authorSchema } = require("./Author.js");
 
 const bookSchema = new mongoose.Schema({
     id: {
@@ -28,4 +28,4 @@ const bookSchema = new mongoose.Schema({
 
 const book = mongoose.model('books', bookSchema);
 
-export {bookSchema, book};
+export { bookSchema, book };
